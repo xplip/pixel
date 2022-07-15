@@ -13,7 +13,7 @@ setup(
     url="https://github.com/xplip/pixel",
     description="Research code for the paper 'Language Modelling with Pixels'",
     license="Apache",
-    package_dir={"": "pixel"},
+    package_dir={"": "src"},
     packages=find_packages("pixel"),
     zip_safe=True,
 )
