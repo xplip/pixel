@@ -583,7 +583,6 @@ python scripts/data/robustness/preprocess_pos.py \
 ```
 For SNLI (English):
 ```bash
-cd scripts/data/robustness
 python scripts/data/robustness/preprocess_snli.py \
   --attack="confusable" \
   --cpu_count=40

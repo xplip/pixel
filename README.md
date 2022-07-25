@@ -18,11 +18,13 @@ During pretraining, the renderer produces images containing the training sentenc
 
 After pretraining, the decoder can be discarded leaving an 86M parameter encoder, upon which task-specific classification heads can be stacked. Alternatively, the decoder can be retained and PIXEL can be used as a pixel-level generative language model (see Figures 3 and 6 in the paper for examples).
 
+## Demo
+Check out our Gradio demo for text reconstruction with PIXEL at [https://huggingface.co/spaces/Team-PIXEL/PIXEL](https://huggingface.co/spaces/Team-PIXEL/PIXEL)!
 
 ## Coming Soon
-- Gradio demo
 - Rendering guide
 - Finetuned robustness models
+- Integration into HuggingFace transformers
 
 ## Setup
 
