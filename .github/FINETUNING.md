@@ -464,9 +464,6 @@ export RUN_NAME="${DATASET_NAME}-$(basename ${MODEL})-${SEQ_LEN}-${BSZ}-${GRAD_A
 
 python scripts/training/run_qa.py \
   --model_name_or_path=${MODEL} \
-  --task_name=${TASK} \
-  --pooling_mode=${POOLING_MODE} \
-  --pooler_add_layer_norm=True \
   --dataset_name=${DATASET_NAME} \
   --dataset_config_name=${DATASET_CONFIG_NAME} \
   --remove_unused_columns=False \

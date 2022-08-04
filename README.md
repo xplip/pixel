@@ -76,6 +76,10 @@ You can find our pretrained PIXEL-base at [https://huggingface.co/Team-PIXEL/pix
 
 **Note**: This link also gives access to all intermediate training checkpoints from 10k to 1M steps through the commit history. You can select these checkpoints when finetuning PIXEL via `--model_revision=<commit_id>`
 
+Our pretraining datasets are also on the HuggingFace hub and can be loaded via the [datasets](https://github.com/huggingface/datasets) library:
+- [Team-PIXEL/rendered-bookcorpus](https://huggingface.co/datasets/Team-PIXEL/rendered-bookcorpus)
+- [Team-PIXEL/rendered-wikipedia-english](https://huggingface.co/datasets/Team-PIXEL/rendered-wikipedia-english)
+
 ## Finetuning PIXEL
 
 We provide instructions for finetuning PIXEL in [FINETUNING.md](.github/FINETUNING.md). If you follow our training recipes or simply evaluate using the models we provide via the links below, you can expect similar results as below.
@@ -126,6 +130,10 @@ We provide instructions for finetuning PIXEL in [FINETUNING.md](.github/FINETUNI
 <details>
   <summary><i>Show Table</i></summary>
 &nbsp;
+Notes:
+
+1) To obtain per-language predictions and scores for TyDiQA-GoldP, follow the instructions from [https://github.com/google-research-datasets/tydiqa/tree/master/gold_passage_baseline](https://github.com/google-research-datasets/tydiqa/tree/master/gold_passage_baseline)
+2) To reproduce our scores for KorQuAD, use the official KorQuAD evaluation script available [here](https://korquad.github.io/KorQuad%201.0/)
 
 <table>
 <thead>

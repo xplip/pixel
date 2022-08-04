@@ -16,6 +16,7 @@ from transformers.trainer_utils import (
 from transformers.utils import logging
 
 from .utils.optimization import get_cosine_schedule_to_min_lr_with_warmup
+from .utils.training import debug_log_inputs
 
 if is_torch_tpu_available():
     import torch_xla.core.xla_model as xm

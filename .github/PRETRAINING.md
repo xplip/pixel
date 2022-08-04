@@ -2,6 +2,12 @@
 
 Here we provide instructions for pretraining PIXEL. You can use these to reproduce our results or train your own PIXEL model on a different dataset.
 
+Our rendered pretraining datasets are available on HuggingFace:
+- [Team-PIXEL/rendered-bookcorpus](https://huggingface.co/datasets/Team-PIXEL/rendered-bookcorpus)
+- [Team-PIXEL/rendered-wikipedia-english](https://huggingface.co/datasets/Team-PIXEL/rendered-wikipedia-english)
+
+The datasets were created, i.e. prerendered from the respective original text datasets, as described below.
+
 ### Prerendering the data
 
 <details>

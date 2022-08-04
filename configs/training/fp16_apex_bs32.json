@@ -1,5 +1,5 @@
 {
-    "train_dataset_names": "Team-PIXEL/rendered-bookcorpus,Team-PIXEL/rendered-wikipedia-en",
+    "train_dataset_names": "Team-PIXEL/rendered-bookcorpus,Team-PIXEL/rendered-wikipedia-english",
     "validation_dataset_name": "plip/wiki_dev",
     "dataset_cache": "data/rendered-bookcorpus,data/rendered-wikipedia-en",
     "train_splits": "train,train",
