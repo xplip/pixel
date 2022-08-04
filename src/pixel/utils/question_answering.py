@@ -135,13 +135,14 @@ def postprocess_qa_predictions(
             token_is_max_context = features[feature_index].get("token_is_max_context", None)
 
             # Update minimum null prediction.
-            feature_null_score = start_logits[0] + end_logits[0]
+            cls_token_index = 0 if modality == modality.TEXT else -1
+            feature_null_score = start_logits[cls_token_index] + end_logits[cls_token_index]
             if min_null_prediction is None or min_null_prediction["score"] > feature_null_score:
                 min_null_prediction = {
-                    "offsets": (0, 0),
+                    "offsets": ([0, 0], [0, 0]),
                     "score": feature_null_score,
-                    "start_logit": start_logits[0],
-                    "end_logit": end_logits[0],
+                    "start_logit": start_logits[cls_token_index],
+                    "end_logit": end_logits[cls_token_index],
                 }
 
             # Go through all possibilities for the `n_best_size` greater start and end logits.
@@ -188,7 +189,7 @@ def postprocess_qa_predictions(
         if (
             version_2_with_negative
             and min_null_prediction is not None
-            and not any(p["offsets"] == (0, 0) for p in predictions)
+            and not any(p["offsets"] == ([0, 0], [0, 0]) for p in predictions)
         ):
             predictions.append(min_null_prediction)
 

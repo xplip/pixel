@@ -383,7 +383,7 @@ def get_preprocess_fn(
 
             for i, offsets in enumerate(offset_mapping):
                 # We will label impossible answers with the index of the CLS token.
-                cls_index = processor.max_seq_length + 1
+                cls_index = processor.max_seq_length
 
                 # One example can give several spans, this is the index of the example containing this span of text.
                 sample_index = sample_mapping[i]
