@@ -194,12 +194,12 @@ Notes:
 ### Citation & Contact
 
 ```bibtex
-@article{rust-etal-2022-pixel,
+@inproceedings{rust-etal-2023-pixel,
   title={Language Modelling with Pixels},
   author={Phillip Rust and Jonas F. Lotz and Emanuele Bugliarello and Elizabeth Salesky and Miryam de Lhoneux and Desmond Elliott},
-  journal={arXiv preprint},
-  year={2022},
-  url={https://arxiv.org/abs/2207.06991}
+  booktitle={The Eleventh International Conference on Learning Representations},
+  year={2023},
+  url={https://openreview.net/forum?id=FkSp8VW8RjH}
 }
 ```
 
