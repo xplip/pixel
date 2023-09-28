@@ -66,6 +66,31 @@ cd apex
 pip install -v --disable-pip-version-check --no-cache-dir --global-option="--cpp_ext" --global-option="--cuda_ext" ./
 ```
 
+5. Verify Installation on Vietnamese POS tagging
+```bash
+# Create a folder in which we keep the data
+mkdir -p data
+# Get and extract the UD data for parsing and POS tagging
+wget -qO- https://lindat.mff.cuni.cz/repository/xmlui/bitstream/handle/11234/1-4758/ud-treebanks-v2.10.tgz | tar xvz -C data
+
+python scripts/training/run_pos.py \
+  --model_name_or_path="Team-PIXEL/pixel-base-finetuned-pos-ud-vietnamese-vtb" \
+  --data_dir="data/ud-treebanks-v2.10/UD_Vietnamese-VTB" \
+  --remove_unused_columns=False \
+  --output_dir="sanity_check" \
+  --do_eval \
+  --max_seq_length=256 \
+  --overwrite_cache
+```
+
+If everything is configured correctly, you should expect to see results similar to the following:
+
+```bash
+***** eval metrics *****
+  eval_accuracy           =     0.8632
+  eval_loss               =     1.2375
+```
+
 </details>
 
 ## Pretraining PIXEL
