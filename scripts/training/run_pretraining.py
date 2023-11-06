@@ -359,8 +359,11 @@ def main(config_dict: Dict[str, Any] = None):
         logger.info("Training new model from scratch")
         model = PIXELForPreTraining(config)
 
+    logger.info("Finish loading data")
     # Load text renderer
     text_renderer = PyGameTextRenderer.from_pretrained(model_args.text_renderer_name_or_path, **config_kwargs)
+    logger.info("Finish loading render")
+    sys.exit()
 
     # Load or create feature extractor
     if model_args.feature_extractor_name:
