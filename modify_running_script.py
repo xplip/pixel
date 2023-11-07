@@ -101,26 +101,26 @@ class Trainer:
     def __call__(self):
         import scripts.training.run_pretraining as trainer
 
-        self._setup()
+        # self._setup()
         trainer.main(self.config_dict)
 
-    def _setup(self):
-        import submitit
+    # def _setup(self):
+    #     import submitit
 
-        job_env = submitit.JobEnvironment()
+    #     job_env = submitit.JobEnvironment()
 
-        self.config_dict["output_dir"] = os.path.join(
-            self.config_dict["output_dir"].replace("%j", str(job_env.job_id)), "outputs"
-        )
-        self.config_dict["run_name"] = self.config_dict["run_name"].replace("%j", str(job_env.job_id))
+    #     self.config_dict["output_dir"] = os.path.join(
+    #         self.config_dict["output_dir"].replace("%j", str(job_env.job_id)), "outputs"
+    #     )
+    #     self.config_dict["run_name"] = self.config_dict["run_name"].replace("%j", str(job_env.job_id))
 
-        os.environ["LOCAL_RANK"] = str(job_env.local_rank)
-        if "SLURM_PROCID" in os.environ:
-            os.environ["RANK"] = os.environ["SLURM_PROCID"]
-        else:
-            os.environ["RANK"] = str(job_env.global_rank)
-        os.environ["WORLD_SIZE"] = str(job_env.num_tasks)
-        print(f"Process group: {job_env.num_tasks} tasks, rank: {job_env.global_rank}")
+    #     os.environ["LOCAL_RANK"] = str(job_env.local_rank)
+    #     if "SLURM_PROCID" in os.environ:
+    #         os.environ["RANK"] = os.environ["SLURM_PROCID"]
+    #     else:
+    #         os.environ["RANK"] = str(job_env.global_rank)
+    #     os.environ["WORLD_SIZE"] = str(job_env.num_tasks)
+    #     print(f"Process group: {job_env.num_tasks} tasks, rank: {job_env.global_rank}")
 
 
 def main():

@@ -1,4 +1,4 @@
-python submitit_pretrain.py \
+python modify_running_script.py \
   --job_dir=../experiments \
   --text_renderer_name_or_path=configs/renderers/noto_renderer \
   --mask_ratio=0.25 \
@@ -8,5 +8,5 @@ python submitit_pretrain.py \
   --dropout_prob=0.1 \
   --training_config_name=fp16_apex_bs32 \
   --nodes 1 \
-  --ngpus 2 \
+  --ngpus 1 \
   # --partition gpu
