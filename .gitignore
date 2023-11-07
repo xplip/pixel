@@ -1,0 +1,11 @@
+configs/__pycache__/
+scripts/training/__pycache__/
+src/pixel/__pycache__/
+src/pixel/data/__pycache__/
+src/pixel/data/datasets/__pycache__/
+src/pixel/data/rendering/__pycache__/
+src/pixel/models/__pycache__/
+src/pixel/models/auto/__pycache__/
+src/pixel/models/pixel/__pycache__/
+src/pixel/utils/__pycache__/
+*/__pycache__/
