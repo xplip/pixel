@@ -215,6 +215,7 @@ def collate_fn(examples):
 
 
 def main(config_dict: Dict[str, Any] = None):
+    print("successful called trainer main")
 
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, CustomTrainingArguments))
     if not config_dict:

@@ -100,9 +100,12 @@ class Trainer:
 
     def __call__(self):
         import scripts.training.run_pretraining as trainer
+        print("successful trainer")
 
         # self._setup()
         trainer.main(self.config_dict)
+        print("successful finish trainer")
+
 
     # def _setup(self):
     #     import submitit
@@ -134,4 +137,5 @@ def main():
         args_dict.update(remaining_strings_dict)
 
     config_dict = get_config_dict(**args_dict)
+    print("successful config_dict")
     trainer = Trainer(config_dict)        
