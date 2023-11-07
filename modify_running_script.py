@@ -139,3 +139,6 @@ def main():
     config_dict = get_config_dict(**args_dict)
     print("successful config_dict")
     trainer = Trainer(config_dict)        
+
+if __name__ == "__main__":
+    main()
