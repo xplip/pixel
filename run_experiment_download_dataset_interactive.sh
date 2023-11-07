@@ -1,3 +1,6 @@
+. /etc/profile.d/modules.sh
+module load cuda
+
 python modify_running_script.py \
   --job_dir=../experiments \
   --text_renderer_name_or_path=configs/renderers/noto_renderer \
