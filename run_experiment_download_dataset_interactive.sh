@@ -1,5 +1,6 @@
 . /etc/profile.d/modules.sh
-module load cuda
+module unload cuda
+module load cuda/12.1.1
 
 python modify_running_script.py \
   --job_dir=../experiments \

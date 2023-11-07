@@ -24,7 +24,7 @@
     "seed": 42,
     "use_auth_token": "<redacted_token_with_read_access>",
     "remove_unused_columns": false,
-    "fp16": false,
+    "fp16": true,
     "half_precision_backend": "apex",
     "streaming": false,
     "report_to": "wandb",
