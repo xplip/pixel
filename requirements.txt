@@ -10,7 +10,7 @@ pygame
 pyyaml
 scipy
 seqeval
-sklearn
+scikit-learn
 spacy
 submitit
 transformers==4.17.0
