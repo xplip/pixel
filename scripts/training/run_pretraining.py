@@ -266,6 +266,9 @@ def main(config_dict: Dict[str, Any] = None):
                 f"Checkpoint detected, resuming training at {last_checkpoint}. To avoid this behavior, change "
                 "the `--output_dir` or add `--overwrite_output_dir` to train from scratch."
             )
+
+    training_args.train_batch_size = 32
+    data_args.streaming = True
     logger.info(f"training_args.train_batch_size {training_args.train_batch_size}")
     logger.info(f"training_args.gradient_accumulation_steps {training_args.gradient_accumulation_steps}")
     logger.info(f"training_args.world_size {training_args.world_size}")
@@ -275,8 +278,8 @@ def main(config_dict: Dict[str, Any] = None):
         logger.info(f"training_args.learning_rate {training_args.learning_rate}")
 
     logger.info(f"data_args.streaming {data_args.streaming}")
-    sys.exit()
     
+
     # Initialize our datasets
     train_datasets = [
         load_dataset(
