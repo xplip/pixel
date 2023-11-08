@@ -485,13 +485,13 @@ def main(config_dict: Dict[str, Any] = None):
         else:
             train_dataset.set_transform(preprocess_images)
 
-    if training_args.do_eval:
-        if data_args.max_eval_samples is not None:
-            validation_dataset = validation_dataset.shuffle(seed=training_args.seed).select(
-                range(data_args.max_eval_samples)
-            )
-        # Set the validation transforms
-        validation_dataset.set_transform(preprocess_images)
+    # if training_args.do_eval:
+    #     if data_args.max_eval_samples is not None:
+    #         validation_dataset = validation_dataset.shuffle(seed=training_args.seed).select(
+    #             range(data_args.max_eval_samples)
+    #         )
+    #     # Set the validation transforms
+    #     validation_dataset.set_transform(preprocess_images)
 
     # Compute absolute learning rate
     total_train_batch_size = (
@@ -505,7 +505,8 @@ def main(config_dict: Dict[str, Any] = None):
         model=model,
         args=training_args,
         train_dataset=train_dataset if training_args.do_train else None,
-        eval_dataset=validation_dataset if training_args.do_eval else None,
+        # eval_dataset=validation_dataset if training_args.do_eval else None,
+        eval_dataset=None,
         tokenizer=text_renderer,
         data_collator=collate_fn,
     )
@@ -525,11 +526,11 @@ def main(config_dict: Dict[str, Any] = None):
         trainer.save_metrics("train", train_result.metrics)
         trainer.save_state()
 
-    # Evaluation
-    if training_args.do_eval:
-        metrics = trainer.evaluate()
-        trainer.log_metrics("eval", metrics)
-        trainer.save_metrics("eval", metrics)
+    # # Evaluation
+    # if training_args.do_eval:
+    #     metrics = trainer.evaluate()
+    #     trainer.log_metrics("eval", metrics)
+    #     trainer.save_metrics("eval", metrics)
 
     # Write model card and (optionally) push to hub
     kwargs = {
