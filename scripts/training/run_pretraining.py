@@ -266,7 +266,18 @@ def main(config_dict: Dict[str, Any] = None):
                 f"Checkpoint detected, resuming training at {last_checkpoint}. To avoid this behavior, change "
                 "the `--output_dir` or add `--overwrite_output_dir` to train from scratch."
             )
+    logger.info(f"Applied transformations: {transforms}")
+    logger.info(f"training_args.train_batch_size {training_args.train_batch_size}")
+    logger.info(f"training_args.gradient_accumulation_steps {training_args.gradient_accumulation_steps}")
+    logger.info(f"training_args.world_size {training_args.world_size}")
+    if training_args.base_learning_rate is not None:
+        logger.info(f"training_args.base_learning_rate {training_args.base_learning_rate}")
+    if training_args.learning_rate is not None:
+        logger.info(f"training_args.learning_rate {training_args.learning_rate}")
 
+    logger.info(f"data_args.streaming {data_args.streaming}")
+    sys.exit()
+    
     # Initialize our datasets
     train_datasets = [
         load_dataset(
@@ -355,17 +366,7 @@ def main(config_dict: Dict[str, Any] = None):
             "architectures": [PIXELForPreTraining.__name__]
         }
     )
-    logger.info(f"Applied transformations: {transforms}")
-    logger.info(f"training_args.train_batch_size {training_args.train_batch_size}")
-    logger.info(f"training_args.gradient_accumulation_steps {training_args.gradient_accumulation_steps}")
-    logger.info(f"training_args.world_size {training_args.world_size}")
-    if training_args.base_learning_rate is not None:
-        logger.info(f"training_args.base_learning_rate {training_args.base_learning_rate}")
-    if training_args.learning_rate is not None:
-        logger.info(f"training_args.learning_rate {training_args.learning_rate}")
 
-    logger.info(f"data_args.streaming {data_args.streaming}")
-    sys.exit()
     # Create model
     if model_args.model_name_or_path:
         model = PIXELForPreTraining.from_pretrained(
