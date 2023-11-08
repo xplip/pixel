@@ -96,6 +96,7 @@ class Trainer:
         self,
         config_dict: Dict[str, Any],
     ):
+        config_dict["do_eval"] = False
         self.config_dict = config_dict
 
     def __call__(self):
