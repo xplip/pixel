@@ -468,6 +468,7 @@ def main(config_dict: Dict[str, Any] = None):
         train_dataset = train_dataset.filter(lambda x: (x["num_patches"] >= 22))
         # Set training transforms
         if data_args.streaming:
+            print("-------------------------", data_args.streaming, "-------------------------")
             train_dataset = train_dataset.map(preprocess_images, batched=True, batch_size=10000)
         else:
             train_dataset.set_transform(preprocess_images)

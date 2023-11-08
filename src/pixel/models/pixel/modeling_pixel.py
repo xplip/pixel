@@ -465,8 +465,8 @@ def get_2d_sincos_pos_embed(embed_dim, grid_size, add_cls_token=False):
         (`torch.FloatTensor` of shape (grid_size*grid_size, embed_dim) or (1+grid_size*grid_size, embed_dim): the
         position embeddings (with or without classification token)
     """
-    grid_h = np.arange(grid_size, dtype=np.float32)
-    grid_w = np.arange(grid_size, dtype=np.float32)
+    grid_h = np.arange(grid_size, dtype=float)
+    grid_w = np.arange(grid_size, dtype=float)
     grid = np.meshgrid(grid_w, grid_h)  # here w goes first
     grid = np.stack(grid, axis=0)
 
@@ -496,7 +496,7 @@ def get_1d_sincos_pos_embed_from_grid(embed_dim, pos):
     if embed_dim % 2 != 0:
         raise ValueError("embed_dim must be even")
 
-    omega = np.arange(embed_dim // 2, dtype=np.float)
+    omega = np.arange(embed_dim // 2, dtype=float)
     omega /= embed_dim / 2.0
     omega = 1.0 / 10000**omega  # (D/2,)
 
