@@ -266,7 +266,6 @@ def main(config_dict: Dict[str, Any] = None):
                 f"Checkpoint detected, resuming training at {last_checkpoint}. To avoid this behavior, change "
                 "the `--output_dir` or add `--overwrite_output_dir` to train from scratch."
             )
-    logger.info(f"Applied transformations: {transforms}")
     logger.info(f"training_args.train_batch_size {training_args.train_batch_size}")
     logger.info(f"training_args.gradient_accumulation_steps {training_args.gradient_accumulation_steps}")
     logger.info(f"training_args.world_size {training_args.world_size}")
@@ -456,6 +455,8 @@ def main(config_dict: Dict[str, Any] = None):
         image_std=image_std,
     )
 
+    logger.info(f"Applied transformations: {transforms}")
+
     def preprocess_images(examples):
         """Preprocess a batch of images by applying transforms."""
 
@@ -468,7 +469,7 @@ def main(config_dict: Dict[str, Any] = None):
             ]
 
         return examples
-
+    
     if training_args.do_train:
         if data_args.streaming:
             train_dataset = train_dataset.with_format("torch")
