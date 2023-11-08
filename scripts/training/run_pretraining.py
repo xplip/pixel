@@ -267,7 +267,6 @@ def main(config_dict: Dict[str, Any] = None):
                 "the `--output_dir` or add `--overwrite_output_dir` to train from scratch."
             )
 
-    training_args.train_batch_size = 32
     data_args.streaming = True
     logger.info(f"training_args.train_batch_size {training_args.train_batch_size}")
     logger.info(f"training_args.gradient_accumulation_steps {training_args.gradient_accumulation_steps}")
