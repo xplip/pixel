@@ -318,13 +318,13 @@ def main(config_dict: Dict[str, Any] = None):
     #     len_train_dataset = - len(train_dataset) // 5
     #     validation_dataset = train_dataset[len_train_dataset:]
     # except:
-    #     logger.info(
-    #         "Can't take partition from train_dataset. Loading full"
-    #     )
-    #     validation_dataset = train_dataset
-    validation_dataset = load_dataset(
-        data_args.validation_dataset_name, split=data_args.validation_split, use_auth_token=model_args.use_auth_token
+    logger.info(
+        "Can't take partition from train_dataset. Loading full"
     )
+    validation_dataset = train_dataset
+    # validation_dataset = load_dataset(
+    #     data_args.validation_dataset_name, split=data_args.validation_split, use_auth_token=model_args.use_auth_token
+    # )
 
     config_kwargs = {
         "cache_dir": model_args.cache_dir,
