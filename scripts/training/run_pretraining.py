@@ -446,6 +446,15 @@ def main(config_dict: Dict[str, Any] = None):
     )
 
     logger.info(f"Applied transformations: {transforms}")
+    logger.info(f"training_args.train_batch_size {training_args.train_batch_size}")
+    logger.info(f"training_args.gradient_accumulation_steps {training_args.gradient_accumulation_steps}")
+    logger.info(f"training_args.world_size {training_args.world_size}")
+    if training_args.base_learning_rate is not None:
+        logger.info(f"training_args.base_learning_rate {training_args.base_learning_rate}")
+    if training_args.learning_rate is not None:
+        logger.info(f"training_args.learning_rate {training_args.learning_rate}")
+
+    logger.info(f"data_args.streaming {data_args.streaming}")
 
     def preprocess_images(examples):
         """Preprocess a batch of images by applying transforms."""
@@ -459,7 +468,7 @@ def main(config_dict: Dict[str, Any] = None):
             ]
 
         return examples
-
+    sys.exit()
     if training_args.do_train:
         if data_args.streaming:
             train_dataset = train_dataset.with_format("torch")
