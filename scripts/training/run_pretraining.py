@@ -301,7 +301,7 @@ def main(config_dict: Dict[str, Any] = None):
     combined_size = sum(dataset_sizes)
     dataset_sampling_probs = [d_size / combined_size for d_size in dataset_sizes]
 
-    print('type, length', type(train_datasets[0]), type(train_datasets[0][0]), len(train_datasets))
+    print('type, length', type(train_datasets[0]), len(train_datasets))
     print('type, length', type(train_datasets["train"]))
     wiki_train_dataset, validation_dataset = train_datasets[1].train_test_split(test_size=0.001).values()
     train_datasets[1] = wiki_train_dataset
