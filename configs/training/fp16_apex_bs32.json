@@ -22,15 +22,14 @@
     "save_strategy": "steps",
     "save_steps": 10000,
     "seed": 42,
-    "use_auth_token": "<redacted_token_with_read_access>",
+    "use_auth_token": "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",
     "remove_unused_columns": false,
-    "fp16": true,
-    "half_precision_backend": "apex",
+    "fp16": false,
     "streaming": true,
     "report_to": "wandb",
     "push_to_hub": true,
     "hub_model_id": "Team-PIXEL/pixel-base",
     "hub_strategy": "checkpoint",
-    "hub_token": "<redacted_token_with_write_access>",
+    "hub_token": "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",
     "hub_private_repo": true
 }
