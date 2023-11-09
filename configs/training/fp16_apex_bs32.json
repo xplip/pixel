@@ -1,12 +1,11 @@
 {
     "train_dataset_names": "Team-PIXEL/rendered-bookcorpus,Team-PIXEL/rendered-wikipedia-english",
     "validation_dataset_name": "plip/wiki_dev",
-    "dataset_cache": "data/rendered-bookcorpus,data/rendered-wikipedia-en",
     "train_splits": "train,train",
     "validation_split": "en",
     "label_names": "pixel_values",
     "do_train": true,
-    "do_eval": false,
+    "do_eval": true,
     "max_steps": 40000,
     "base_learning_rate": 1.5e-4,
     "lr_scheduler_type": "cosine",

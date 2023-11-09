@@ -301,7 +301,8 @@ def main(config_dict: Dict[str, Any] = None):
     combined_size = sum(dataset_sizes)
     dataset_sampling_probs = [d_size / combined_size for d_size in dataset_sizes]
 
-    train_dataset = interleave_datasets(train_datasets, probabilities=dataset_sampling_probs, seed=training_args.seed)
+    real_train_dataset, validation_dataset = train_datasets.train_test_split(test_size=0.0001).values()
+    train_dataset = interleave_datasets(real_train_dataset, probabilities=dataset_sampling_probs, seed=training_args.seed)
     logger.info("***** Interleaving training datasets *****")
     for d_name, d_config, d_split, d_sampling_prob, d_cache in zip(
         data_args.train_dataset_names,
@@ -319,10 +320,9 @@ def main(config_dict: Dict[str, Any] = None):
     #     len_train_dataset = - len(train_dataset) // 5
     #     validation_dataset = train_dataset[len_train_dataset:]
     # except:
-    logger.info(
-        "Can't take partition from train_dataset. Loading full"
-    )
-    validation_dataset = train_dataset
+    # logger.info(
+    #     "Can't take partition from train_dataset. Loading full"
+    # )
     # validation_dataset = load_dataset(
     #     data_args.validation_dataset_name, split=data_args.validation_split, use_auth_token=model_args.use_auth_token
     # )
@@ -486,13 +486,13 @@ def main(config_dict: Dict[str, Any] = None):
         else:
             train_dataset.set_transform(preprocess_images)
 
-    # if training_args.do_eval:
-    #     if data_args.max_eval_samples is not None:
-    #         validation_dataset = validation_dataset.shuffle(seed=training_args.seed).select(
-    #             range(data_args.max_eval_samples)
-    #         )
-    #     # Set the validation transforms
-    #     validation_dataset.set_transform(preprocess_images)
+    if training_args.do_eval:
+        if data_args.max_eval_samples is not None:
+            validation_dataset = validation_dataset.shuffle(seed=training_args.seed).select(
+                range(data_args.max_eval_samples)
+            )
+        # Set the validation transforms
+        validation_dataset.set_transform(preprocess_images)
 
     # Compute absolute learning rate
     total_train_batch_size = (
@@ -506,7 +506,7 @@ def main(config_dict: Dict[str, Any] = None):
         model=model,
         args=training_args,
         train_dataset=train_dataset if training_args.do_train else None,
-        # eval_dataset=validation_dataset if training_args.do_eval else None,
+        eval_dataset=validation_dataset if training_args.do_eval else None,
         tokenizer=text_renderer,
         data_collator=collate_fn,
     )
@@ -526,11 +526,11 @@ def main(config_dict: Dict[str, Any] = None):
         trainer.save_metrics("train", train_result.metrics)
         trainer.save_state()
 
-    # # Evaluation
-    # if training_args.do_eval:
-    #     metrics = trainer.evaluate()
-    #     trainer.log_metrics("eval", metrics)
-    #     trainer.save_metrics("eval", metrics)
+    # Evaluation
+    if training_args.do_eval:
+        metrics = trainer.evaluate()
+        trainer.log_metrics("eval", metrics)
+        trainer.save_metrics("eval", metrics)
 
     # Write model card and (optionally) push to hub
     kwargs = {
