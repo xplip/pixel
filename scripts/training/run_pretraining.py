@@ -287,7 +287,7 @@ def main(config_dict: Dict[str, Any] = None):
             d_config,
             split=d_split,
             use_auth_token=model_args.use_auth_token,
-            streaming=data_args.streaming,
+            streaming=False,
             cache_dir=d_cache,
         )
         for d_name, d_config, d_split, d_cache in zip(
