@@ -302,7 +302,7 @@ def main(config_dict: Dict[str, Any] = None):
     dataset_sampling_probs = [d_size / combined_size for d_size in dataset_sizes]
 
     print('type, length', type(train_datasets[0]), len(train_datasets))
-    print('type, length', type(train_datasets["train"]))
+    print('type, length', type(train_datasets[0]["train"]))
     wiki_train_dataset, validation_dataset = train_datasets[1].train_test_split(test_size=0.001).values()
     train_datasets[1] = wiki_train_dataset
     train_dataset = interleave_datasets(train_datasets, probabilities=dataset_sampling_probs, seed=training_args.seed)
