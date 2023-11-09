@@ -39,6 +39,7 @@ from transformers.trainer_utils import get_last_checkpoint
 from transformers.utils import check_min_version
 from transformers.utils.versions import require_version
 
+os.environ["TRANSFORMERS_OFFLINE"] = "1"
 """ Pre-training a PIXEL model as an MAE (masked autoencoder)"""
 
 logger = logging.getLogger(__name__)
@@ -506,7 +507,6 @@ def main(config_dict: Dict[str, Any] = None):
         args=training_args,
         train_dataset=train_dataset if training_args.do_train else None,
         # eval_dataset=validation_dataset if training_args.do_eval else None,
-        eval_dataset=None,
         tokenizer=text_renderer,
         data_collator=collate_fn,
     )
