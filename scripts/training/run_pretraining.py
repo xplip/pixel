@@ -315,8 +315,8 @@ def main(config_dict: Dict[str, Any] = None):
     
     # train_datasets = [book_train_dataset, wiki_train_dataset]
     # train_dataset = interleave_datasets(train_datasets, probabilities=dataset_sampling_probs, seed=training_args.seed)
-    
-    validation_dataset = load_from_disk(os.path.join(data_args.root_path, './pixel/datasets/wiki_validation_dataset'))
+
+    validation_dataset = load_from_disk(os.path.join(data_args.root_path, './pixel/datasets/validation_book_wiki'))
 
     logger.info("***** Interleaving training datasets *****")
     for d_name, d_config, d_split, d_sampling_prob, d_cache in zip(
