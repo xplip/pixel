@@ -522,13 +522,13 @@ def main(config_dict: Dict[str, Any] = None):
 
     # Training
     if training_args.do_train:
+        trainer.save_model()
         checkpoint = None
         if training_args.resume_from_checkpoint is not None:
             checkpoint = training_args.resume_from_checkpoint
         elif last_checkpoint is not None:
             checkpoint = last_checkpoint
         train_result = trainer.train(resume_from_checkpoint=checkpoint)
-        trainer.save_model()
         # Also save feature extractor together with model and text renderer
         feature_extractor.save_pretrained(training_args.output_dir)
         trainer.log_metrics("train", train_result.metrics)
