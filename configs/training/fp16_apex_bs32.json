@@ -24,7 +24,7 @@
     "use_auth_token": "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",
     "remove_unused_columns": false,
     "fp16": false,
-    "streaming": false,
+    "streaming": true,
     "report_to": "wandb",
     "push_to_hub": true,
     "hub_model_id": "Team-PIXEL/pixel-base",
