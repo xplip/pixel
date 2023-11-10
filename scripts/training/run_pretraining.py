@@ -315,13 +315,13 @@ def main(config_dict: Dict[str, Any] = None):
     wiki_train_dataset, wiki_validation_dataset = train_datasets[1].train_test_split(test_size=0.001).values()
     book_train_dataset, book_validation_dataset = train_datasets[0].train_test_split(test_size=0.001).values()
 
-    train_dataset = interleave_datasets([book_train_dataset, wiki_train_dataset])
-    # , probabilities=dataset_sampling_probs, seed=training_args.seed)
+    # train_dataset = interleave_datasets([book_train_dataset, wiki_train_dataset], probabilities=dataset_sampling_probs, seed=training_args.seed)
     validation_dataset = interleave_datasets([book_validation_dataset, wiki_validation_dataset])
-    train_dataset.save_to_disk(os.path.join(data_args.root_path, './pixel/datasets/train_book_wiki'))
+    book_train_dataset.save_to_disk(os.path.join(data_args.root_path, './pixel/datasets/train_book'))
+    wiki_train_dataset.save_to_disk(os.path.join(data_args.root_path, './pixel/datasets/train_wiki'))
+
     validation_dataset.save_to_disk(os.path.join(data_args.root_path, './pixel/datasets/validation_book_wiki'))
-    print('type, length', type(train_dataset[0]), len(train_datasets))
-    sys.exit()
+
     logger.info("***** Interleaving training datasets *****")
     for d_name, d_config, d_split, d_sampling_prob, d_cache in zip(
         data_args.train_dataset_names,
@@ -334,6 +334,7 @@ def main(config_dict: Dict[str, Any] = None):
             f"\tDataset name = {d_name}, config = {d_config}, split = {d_split}, "
             f"sampling probability = {d_sampling_prob:.3f}, cache = {d_cache}"
         )
+    sys.exit()
 
     # try:
     #     len_train_dataset = - len(train_dataset) // 5
