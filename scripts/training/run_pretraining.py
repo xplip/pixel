@@ -22,7 +22,7 @@ from typing import Any, Dict, Optional
 import datasets
 import torch
 import transformers
-from datasets import interleave_datasets, load_dataset
+from datasets import interleave_datasets, load_dataset, load_from_disk
 from pixel import (
     PIXELConfig,
     PIXELEmbeddings,
@@ -270,7 +270,6 @@ def main(config_dict: Dict[str, Any] = None):
                 "the `--output_dir` or add `--overwrite_output_dir` to train from scratch."
             )
 
-    data_args.streaming = True
     logger.info(f"training_args.train_batch_size {training_args.train_batch_size}")
     logger.info(f"training_args.gradient_accumulation_steps {training_args.gradient_accumulation_steps}")
     logger.info(f"training_args.world_size {training_args.world_size}")
@@ -282,45 +281,42 @@ def main(config_dict: Dict[str, Any] = None):
     logger.info(f"data_args.streaming {data_args.streaming}")
     
 
-    # Initialize our datasets
-    train_datasets = [
-        load_dataset(
-            d_name,
-            d_config,
-            split=d_split,
-            use_auth_token=model_args.use_auth_token,
-            streaming=False,
-            cache_dir=d_cache,
-        )
-        for d_name, d_config, d_split, d_cache in zip(
-            data_args.train_dataset_names,
-            data_args.train_dataset_configs,
-            data_args.train_splits,
-            data_args.dataset_caches,
-        )
-    ]
+    # # Initialize our datasets
+    # train_datasets = [
+    #     load_dataset(
+    #         d_name,
+    #         d_config,
+    #         split=d_split,
+    #         use_auth_token=model_args.use_auth_token,
+    #         streaming=False,
+    #         cache_dir=d_cache,
+    #     )
+    #     for d_name, d_config, d_split, d_cache in zip(
+    #         data_args.train_dataset_names,
+    #         data_args.train_dataset_configs,
+    #         data_args.train_splits,
+    #         data_args.dataset_caches,
+    #     )
+    # ]
+    # wiki_train_dataset, wiki_validation_dataset = train_datasets[1].train_test_split(test_size=0.001).values()
+    # book_train_dataset, book_validation_dataset = train_datasets[0].train_test_split(test_size=0.001).values()
+
+    # # train_dataset = interleave_datasets([book_train_dataset, wiki_train_dataset], probabilities=dataset_sampling_probs, seed=training_args.seed)
+    # validation_dataset = interleave_datasets([book_validation_dataset, wiki_validation_dataset])
+    # book_train_dataset.save_to_disk(os.path.join(data_args.root_path, './pixel/datasets/train_book'))
+    # wiki_train_dataset.save_to_disk(os.path.join(data_args.root_path, './pixel/datasets/train_wiki'))
+
+    # validation_dataset.save_to_disk(os.path.join(data_args.root_path, './pixel/datasets/validation_book_wiki'))
+    book_train_dataset = load_from_disk(os.path.join(data_args.root_path, './pixel/datasets/train_book'))
+    wiki_train_dataset = load_from_disk(os.path.join(data_args.root_path, './pixel/datasets/train_wiki'))
+    validation_dataset = load_from_disk(os.path.join(data_args.root_path, './pixel/datasets/wiki_validation_dataset'))
+    
+    train_datasets = [book_train_dataset, wiki_train_dataset]
     dataset_sizes = [ds._info.splits.total_num_examples for ds in train_datasets]
     combined_size = sum(dataset_sizes)
     dataset_sampling_probs = [d_size / combined_size for d_size in dataset_sizes]
 
-    print('type, length', type(train_datasets[0]), len(train_datasets))
-    try:
-        print('type, length', type(train_datasets[0]["train"]))
-    except:
-        print('wrong running type(train_datasets[0]["train"])')
-    try:
-        print('type, length', type(train_datasets[0]["train"]))
-    except:
-        print('wrong running type(train_datasets[0]["train"])')
-    wiki_train_dataset, wiki_validation_dataset = train_datasets[1].train_test_split(test_size=0.001).values()
-    book_train_dataset, book_validation_dataset = train_datasets[0].train_test_split(test_size=0.001).values()
-
-    # train_dataset = interleave_datasets([book_train_dataset, wiki_train_dataset], probabilities=dataset_sampling_probs, seed=training_args.seed)
-    validation_dataset = interleave_datasets([book_validation_dataset, wiki_validation_dataset])
-    book_train_dataset.save_to_disk(os.path.join(data_args.root_path, './pixel/datasets/train_book'))
-    wiki_train_dataset.save_to_disk(os.path.join(data_args.root_path, './pixel/datasets/train_wiki'))
-
-    validation_dataset.save_to_disk(os.path.join(data_args.root_path, './pixel/datasets/validation_book_wiki'))
+    train_dataset = interleave_datasets(train_datasets, probabilities=dataset_sampling_probs, seed=training_args.seed)
 
     logger.info("***** Interleaving training datasets *****")
     for d_name, d_config, d_split, d_sampling_prob, d_cache in zip(
@@ -334,15 +330,8 @@ def main(config_dict: Dict[str, Any] = None):
             f"\tDataset name = {d_name}, config = {d_config}, split = {d_split}, "
             f"sampling probability = {d_sampling_prob:.3f}, cache = {d_cache}"
         )
-    sys.exit()
 
-    # try:
-    #     len_train_dataset = - len(train_dataset) // 5
-    #     validation_dataset = train_dataset[len_train_dataset:]
-    # except:
-    # logger.info(
-    #     "Can't take partition from train_dataset. Loading full"
-    # )
+
     # validation_dataset = load_dataset(
     #     data_args.validation_dataset_name, split=data_args.validation_split, use_auth_token=model_args.use_auth_token
     # )
