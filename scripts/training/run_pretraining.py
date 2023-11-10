@@ -65,6 +65,8 @@ class DataTrainingArguments:
     validation_split: str = field(metadata={"help": "Name of the validation dataset split."})
     dataset_caches: Optional[str] = field(default=None, metadata={"help": "Directory where the dataset is cached"})
     train_dataset_configs: str = field(default=None, metadata={"help": "Train dataset config/subset"})
+    root_path: str = field(default="/exports/eddie/scratch/s2522559/pixel_project", metadata={"help": "Root path of pixel"})
+    
     max_train_samples: Optional[int] = field(
         default=None,
         metadata={
@@ -310,10 +312,15 @@ def main(config_dict: Dict[str, Any] = None):
         print('type, length', type(train_datasets[0]["train"]))
     except:
         print('wrong running type(train_datasets[0]["train"])')
-    wiki_train_dataset, validation_dataset = train_datasets[1].train_test_split(test_size=0.001).values()
-    train_datasets[1] = wiki_train_dataset
-    train_dataset = interleave_datasets(train_datasets, probabilities=dataset_sampling_probs, seed=training_args.seed)
-    print('type, length', type(train_datasets[0]), len(train_datasets))
+    wiki_train_dataset, wiki_validation_dataset = train_datasets[1].train_test_split(test_size=0.001).values()
+    book_train_dataset, book_validation_dataset = train_datasets[0].train_test_split(test_size=0.001).values()
+
+    train_dataset = interleave_datasets([book_train_dataset, wiki_train_dataset])
+    # , probabilities=dataset_sampling_probs, seed=training_args.seed)
+    validation_dataset = interleave_datasets([book_validation_dataset, wiki_validation_dataset])
+    train_dataset.save_to_disk(os.path.join(data_args.root_path, './pixel/datasets/train_book_wiki'))
+    validation_dataset.save_to_disk(os.path.join(data_args.root_path, './pixel/datasets/validation_book_wiki'))
+    print('type, length', type(train_dataset[0]), len(train_datasets))
     sys.exit()
     logger.info("***** Interleaving training datasets *****")
     for d_name, d_config, d_split, d_sampling_prob, d_cache in zip(
