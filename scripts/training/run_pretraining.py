@@ -497,7 +497,7 @@ def main(config_dict: Dict[str, Any] = None):
             print("train_dataset not slicable")
             print(type(train_dataset))
         
-        train_dataset = train_dataset.filter(lambda x: (x["num_patches"] >= 22))
+        train_dataset = train_dataset.filter(lambda x: x["num_patches"] >= 22)
         # Set training transforms
         if data_args.streaming:
             print("-------------------------", data_args.streaming, "-------------------------")
