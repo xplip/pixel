@@ -487,6 +487,16 @@ def main(config_dict: Dict[str, Any] = None):
             train_dataset = train_dataset.with_format("torch")
             train_dataset = train_dataset.shuffle(training_args.seed)
         # Filter out examples that are less than one row long in the squared input image
+        try:
+            print(type(train_dataset[0]))
+            try:
+                print(dir(train_dataset[0]))
+            except:
+                print("not be able to check dir(train_dataset[0])")
+        except:
+            print("train_dataset not slicable")
+            print(type(train_dataset))
+        
         train_dataset = train_dataset.filter(lambda x: (x["num_patches"] >= 22))
         # Set training transforms
         if data_args.streaming:
