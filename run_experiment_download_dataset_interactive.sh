@@ -6,6 +6,7 @@ python modify_running_script.py \
   --overwrite_output_dir \
   --job_dir=../experiments \
   --push_to_hub false \
+  --streaming true \
   --do_eval false \
   --text_renderer_name_or_path=configs/renderers/noto_renderer \
   --mask_ratio=0.25 \

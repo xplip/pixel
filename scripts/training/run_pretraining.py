@@ -288,7 +288,7 @@ def main(config_dict: Dict[str, Any] = None):
             d_config,
             split=d_split,
             use_auth_token=model_args.use_auth_token,
-            streaming=False,
+            streaming=data_args.streaming,
             cache_dir=d_cache,
         )
         for d_name, d_config, d_split, d_cache in zip(
@@ -298,12 +298,13 @@ def main(config_dict: Dict[str, Any] = None):
             data_args.dataset_caches,
         )
     ]
-    # wiki_train_dataset, wiki_validation_dataset = train_datasets[1].train_test_split(test_size=0.001).values()
     # book_train_dataset, book_validation_dataset = train_datasets[0].train_test_split(test_size=0.001).values()
+    # wiki_train_dataset, wiki_validation_dataset = train_datasets[1].train_test_split(test_size=0.001).values()
 
     dataset_sizes = [ds._info.splits.total_num_examples for ds in train_datasets]
     combined_size = sum(dataset_sizes)
     dataset_sampling_probs = [d_size / combined_size for d_size in dataset_sizes]
+    # [book_train_dataset, wiki_train_dataset]
     train_dataset = interleave_datasets(train_datasets, probabilities=dataset_sampling_probs, seed=training_args.seed)
     # validation_dataset = interleave_datasets([book_validation_dataset, wiki_validation_dataset])
     # book_train_dataset.save_to_disk(os.path.join(data_args.root_path, './pixel/datasets/train_book'))
@@ -314,7 +315,7 @@ def main(config_dict: Dict[str, Any] = None):
     # wiki_train_dataset = load_from_disk(os.path.join(data_args.root_path, './pixel/datasets/train_wiki'))
     
     # train_datasets = [book_train_dataset, wiki_train_dataset]
-    # train_dataset = interleave_datasets(train_datasets, probabilities=dataset_sampling_probs, seed=training_args.seed)
+    # train_dataset = interleave_datasets(train_datasets)
 
     validation_dataset = load_from_disk(os.path.join(data_args.root_path, './pixel/datasets/validation_book_wiki'))
 
