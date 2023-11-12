@@ -311,7 +311,7 @@ def main(config_dict: Dict[str, Any] = None):
     wiki_train_dataset = load_from_disk(os.path.join(data_args.root_path, './pixel/datasets/train_wiki'))
     
     train_datasets = [book_train_dataset, wiki_train_dataset]
-    
+
     dataset_sizes = [ds._info.splits.total_num_examples for ds in train_datasets]
     combined_size = sum(dataset_sizes)
     dataset_sampling_probs = [d_size / combined_size for d_size in dataset_sizes]
@@ -515,6 +515,10 @@ def main(config_dict: Dict[str, Any] = None):
         # Set the validation transforms
         validation_dataset.set_transform(preprocess_images)
 
+    train_dataset.save_to_disk('./pixel/datasets/processed_train')
+    validation_dataset.save_to_disk('./pixel/datasets/processed_validation')
+
+    sys.exit()
     # Compute absolute learning rate
     total_train_batch_size = (
         training_args.train_batch_size * training_args.gradient_accumulation_steps * training_args.world_size
