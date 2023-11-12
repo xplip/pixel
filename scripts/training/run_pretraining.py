@@ -515,10 +515,9 @@ def main(config_dict: Dict[str, Any] = None):
         # Set the validation transforms
         validation_dataset.set_transform(preprocess_images)
 
-    train_dataset.save_to_disk('./pixel/datasets/processed_train')
-    validation_dataset.save_to_disk('./pixel/datasets/processed_validation')
+    # train_dataset.save_to_disk('./pixel/datasets/processed_train')
+    # validation_dataset.save_to_disk('./pixel/datasets/processed_validation')
 
-    sys.exit()
     # Compute absolute learning rate
     total_train_batch_size = (
         training_args.train_batch_size * training_args.gradient_accumulation_steps * training_args.world_size
