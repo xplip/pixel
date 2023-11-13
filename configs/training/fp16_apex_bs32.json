@@ -21,8 +21,14 @@
     "save_strategy": "steps",
     "save_steps": 10000,
     "seed": 42,
+    "use_auth_token": "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",
     "remove_unused_columns": false,
     "fp16": false,
     "streaming": false,
-    "report_to": "wandb"
+    "report_to": "wandb",
+    "push_to_hub": false,
+    "hub_model_id": "Team-PIXEL/pixel-base",
+    "hub_strategy": "checkpoint",
+    "hub_token": "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",
+    "hub_private_repo": true
 }
