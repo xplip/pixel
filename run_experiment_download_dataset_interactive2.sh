@@ -18,7 +18,7 @@ python modify_running_script2.py \
   --masking_max_span_length=6 \
   --masking_cumulative_span_weights=0.2,0.4,0.6,0.8,0.9,1.0 \
   --dropout_prob=0.1 \
-  --training_config_name=fp16_apex_bs32 \
+  --training_config_name=fp16_apex_bs32_modified \
   --nodes 1 \
-  --ngpus 1 \
+  --n_gpu 1 \
   # --partition gpu
