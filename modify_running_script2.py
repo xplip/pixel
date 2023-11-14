@@ -11,7 +11,8 @@ from configs.config_maps import MODEL_PROTOTYPE_CONFIGS, TRAINING_CONFIGS
                                                                                                                                                                                                                      
 @dataclass                                                                                                                                                                                                           
 class SubmititTrainingArguments:                                                                                                                                                                                     
-    job_dir: str = field(metadata={"help": "Job dir"})                                                                                                                                                               
+    job_dir: str = field(metadata={"help": "Job dir"})  
+    interactive_job_name: str = field(default=None, metadata={"help": "Job name for interactive pod"})                                                                                                                                                               
     prototype_config_name: Optional[str] = field(                                                                                                                                                                    
         default=None, metadata={"help": "Name of the model prototype config to train"}                                                                                                                               
     )                                                                                                                                                                                                                
@@ -29,8 +30,10 @@ class SubmititTrainingArguments:
                 f"Specified prototype model config not available. "                                                                                                                                                  
                 f"Available options: {list(MODEL_PROTOTYPE_CONFIGS.keys())}"                                                                                                                                         
             )                                                                                                                                                                                                        
-                                                                                                                                                                                                                     
-        self.job_dir = os.path.join(self.job_dir, "%j")                                                                                                                                                              
+        if self.interactive_job_name is not None:  
+            self.job_dir = os.path.join(self.job_dir, self.interactive_job_name)     
+        else:                                                                                                                                                                                                           
+            self.job_dir = os.path.join(self.job_dir, "%j")                                                                                                                                                              
                                                                                                                                                                                                                      
     def __str__(self):                                                                                                                                                                                               
         self_as_dict = asdict(self)                                                                                                                                                                                  
@@ -58,7 +61,11 @@ def process_remaining_strings(remaining_strings: Union[str, List[str]]):
     return remaining_strings_dict
 
 def get_config_dict(**kwargs):
-    config_dict = {"output_dir": kwargs.pop("job_dir"), "run_name": "pixel-%j"}
+    job_name = kwargs.pop("interactive_job_name")
+    if job_name is None:
+        config_dict = {"output_dir": kwargs.pop("job_dir"), "run_name": "pixel-%j"}
+    else:
+        config_dict = {"output_dir": kwargs.pop("job_dir"), "run_name": "pixel-{}".format(job_name)}
 
     submitit_kwargs = ["ngpus", "nodes"]
     [kwargs.pop(k) for k in submitit_kwargs]
@@ -137,11 +144,12 @@ def main():
         remaining_strings_dict = process_remaining_strings(remaining_strings)
         args_dict.update(remaining_strings_dict)
 
-    print(args_dict)
     config_dict = get_config_dict(**args_dict)
-    print("successful config_dict")
-    trainer = Trainer(config_dict)       
-    trainer() 
+    print(config_dict)
+    print(config_dict["run_name"])
+    # print("successful config_dict")
+    # trainer = Trainer(config_dict)       
+    # trainer() 
 
 if __name__ == "__main__":
     main()
