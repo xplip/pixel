@@ -6,7 +6,7 @@ export TRANSFORMERS_OFFLINE=1
 export TRANSFORMERS_CACHE=/exports/eddie/scratch/s2522559/cache
 export HF_DATASETS_CACHE=/exports/eddie/scratch/s2522559/cache
 
-python modify_running_script.py \
+python modify_running_script2.py \
   --overwrite_output_dir \
   --job_dir=../experiments \
   --push_to_hub false \
