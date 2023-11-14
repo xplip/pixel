@@ -62,6 +62,7 @@ def process_remaining_strings(remaining_strings: Union[str, List[str]]):
 
 def get_config_dict(**kwargs):
     job_name = kwargs.pop("interactive_job_name")
+    print("job_name", job_name)
     if job_name is None:
         config_dict = {"output_dir": kwargs.pop("job_dir"), "run_name": "pixel-%j"}
     else:
