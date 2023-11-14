@@ -21,4 +21,5 @@ python modify_running_script2.py \
   --training_config_name=fp16_apex_bs32_modified \
   --nodes 1 \
   --n_gpu 1 \
+  --interactive_job_name nov14-debug1
   # --partition gpu
