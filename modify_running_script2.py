@@ -146,11 +146,9 @@ def main():
         args_dict.update(remaining_strings_dict)
 
     config_dict = get_config_dict(**args_dict)
-    print(config_dict)
-    print(config_dict["run_name"])
-    # print("successful config_dict")
-    # trainer = Trainer(config_dict)       
-    # trainer() 
+    print("successful config_dict")
+    trainer = Trainer(config_dict)       
+    trainer() 
 
 if __name__ == "__main__":
     main()
