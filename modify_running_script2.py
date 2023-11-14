@@ -138,10 +138,10 @@ def main():
         args_dict.update(remaining_strings_dict)
 
     print(args_dict)
-    # config_dict = get_config_dict(**args_dict)
-    # print("successful config_dict")
-    # trainer = Trainer(config_dict)       
-    # trainer() 
+    config_dict = get_config_dict(**args_dict)
+    print("successful config_dict")
+    trainer = Trainer(config_dict)       
+    trainer() 
 
 if __name__ == "__main__":
     main()
