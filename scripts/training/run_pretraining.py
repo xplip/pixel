@@ -271,10 +271,9 @@ def main(config_dict: Dict[str, Any] = None):
                 "the `--output_dir` or add `--overwrite_output_dir` to train from scratch."
             )
 
-    print(training_args.overwrite_output_dir)
-    print(last_checkpoint)
+    # print(training_args.overwrite_output_dir)
+    print("last_checkpoint", last_checkpoint)
     print("output_dir", training_args.output_dir)
-    sys.exit()
 
     logger.info(f"training_args.train_batch_size {training_args.train_batch_size}")
     logger.info(f"training_args.gradient_accumulation_steps {training_args.gradient_accumulation_steps}")
