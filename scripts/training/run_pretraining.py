@@ -254,6 +254,9 @@ def main(config_dict: Dict[str, Any] = None):
     logger.info(f"Training/evaluation parameters {training_args}")
     logger.info(f"Data parameters {data_args}")
     logger.info(f"Model parameters {model_args}")
+    print(training_args.overwrite_output_dir)
+    assert training_args.overwrite_output_dir == True
+    sys.exit()
 
     # Detecting last checkpoint.
     last_checkpoint = None

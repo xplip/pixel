@@ -20,6 +20,7 @@ python modify_running_script2.py \
   --dropout_prob=0.1 \
   --training_config_name=fp16_apex_bs32_modified \
   --nodes 1 \
-  --n_gpu 1 \
-  --interactive_job_name nov14-debug1
+  --n_gpu 4 \
+  --interactive_job_name nov14-pretrain1 \
+  --overwrite_output_dir false
   # --partition gpu
