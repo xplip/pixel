@@ -254,10 +254,8 @@ def main(config_dict: Dict[str, Any] = None):
     logger.info(f"Training/evaluation parameters {training_args}")
     logger.info(f"Data parameters {data_args}")
     logger.info(f"Model parameters {model_args}")
-    print(training_args.overwrite_output_dir)
-    assert training_args.overwrite_output_dir == True
-    sys.exit()
 
+    training_args.overwrite_output_dir = False
     # Detecting last checkpoint.
     last_checkpoint = None
     if os.path.isdir(training_args.output_dir) and training_args.do_train and not training_args.overwrite_output_dir:
@@ -273,6 +271,11 @@ def main(config_dict: Dict[str, Any] = None):
                 "the `--output_dir` or add `--overwrite_output_dir` to train from scratch."
             )
 
+    print(training_args.overwrite_output_dir)
+    print(last_checkpoint)
+    print("output_dir", training_args.output_dir)
+    sys.exit()
+
     logger.info(f"training_args.train_batch_size {training_args.train_batch_size}")
     logger.info(f"training_args.gradient_accumulation_steps {training_args.gradient_accumulation_steps}")
     logger.info(f"training_args.world_size {training_args.world_size}")
@@ -282,7 +285,6 @@ def main(config_dict: Dict[str, Any] = None):
         logger.info(f"training_args.learning_rate {training_args.learning_rate}")
 
     logger.info(f"data_args.streaming {data_args.streaming}")
-    
 
     # # Initialize our datasets
     # train_datasets = [
