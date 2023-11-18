@@ -38,6 +38,8 @@ from transformers import HfArgumentParser, TrainingArguments, ViTFeatureExtracto
 from transformers.trainer_utils import get_last_checkpoint
 from transformers.utils import check_min_version
 from transformers.utils.versions import require_version
+from huggingface_hub import login
+login(token="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")
 
 os.environ["TRANSFORMERS_OFFLINE"] = "1"
 """ Pre-training a PIXEL model as an MAE (masked autoencoder)"""
@@ -273,7 +275,9 @@ def main(config_dict: Dict[str, Any] = None):
 
     # print(training_args.overwrite_output_dir)
     print("last_checkpoint", last_checkpoint)
+    print("last_checkpoint type", type(last_checkpoint))
     print("output_dir", training_args.output_dir)
+    sys.exit()
 
     logger.info(f"training_args.train_batch_size {training_args.train_batch_size}")
     logger.info(f"training_args.gradient_accumulation_steps {training_args.gradient_accumulation_steps}")
