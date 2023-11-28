@@ -22,5 +22,6 @@ python modify_running_script2.py \
   --nodes 1 \
   --n_gpu 4 \
   --interactive_job_name nov14-pretrain1 \
-  --overwrite_output_dir false
+  --overwrite_output_dir false \
+  --ignore_data_skip
   # --partition gpu
