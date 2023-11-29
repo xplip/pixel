@@ -388,12 +388,16 @@ def get_preprocess_fn(
 def main():
 
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, PIXELTrainingArguments))
+
     if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
         # If we pass only one argument to the script and it's the path to a json file,
         # let's parse it to get our arguments.
         model_args, data_args, training_args = parser.parse_json_file(json_file=os.path.abspath(sys.argv[1]))
     else:
         model_args, data_args, training_args = parser.parse_args_into_dataclasses()
+
+    if training_args.dataloader_num_workers > 0:
+        os.system("taskset -p 0xffff %d" % os.getpid())
 
     # Setup logging
     log_level = logging.INFO
@@ -455,32 +459,33 @@ def main():
             data_args.dataset_name, data_args.dataset_config_name, cache_dir=model_args.cache_dir
         )
     else:
-        # Loading a dataset from your local files.
-        # CSV/JSON training and evaluation files are needed.
-        data_files = {"train": data_args.train_file, "validation": data_args.validation_file}
+        raise NotImplemented
+        # # Loading a dataset from your local files.
+        # # CSV/JSON training and evaluation files are needed.
+        # data_files = {"train": data_args.train_file, "validation": data_args.validation_file}
 
-        # Get the test dataset: you can provide your own CSV/JSON test file (see below)
-        # when you use `do_predict` without specifying a GLUE benchmark task.
-        if training_args.do_predict:
-            if data_args.test_file is not None:
-                train_extension = data_args.train_file.split(".")[-1]
-                test_extension = data_args.test_file.split(".")[-1]
-                assert (
-                    test_extension == train_extension
-                ), "`test_file` should have the same extension (csv or json) as `train_file`."
-                data_files["test"] = data_args.test_file
-            else:
-                raise ValueError("Need either a GLUE task or a test file for `do_predict`.")
+        # # Get the test dataset: you can provide your own CSV/JSON test file (see below)
+        # # when you use `do_predict` without specifying a GLUE benchmark task.
+        # if training_args.do_predict:
+        #     if data_args.test_file is not None:
+        #         train_extension = data_args.train_file.split(".")[-1]
+        #         test_extension = data_args.test_file.split(".")[-1]
+        #         assert (
+        #             test_extension == train_extension
+        #         ), "`test_file` should have the same extension (csv or json) as `train_file`."
+        #         data_files["test"] = data_args.test_file
+        #     else:
+        #         raise ValueError("Need either a GLUE task or a test file for `do_predict`.")
 
-        for key in data_files.keys():
-            logger.info(f"load a local file for {key}: {data_files[key]}")
+        # for key in data_files.keys():
+        #     logger.info(f"load a local file for {key}: {data_files[key]}")
 
-        if data_args.train_file.endswith(".csv"):
-            # Loading a dataset from local csv files
-            raw_datasets = load_dataset("csv", data_files=data_files, cache_dir=model_args.cache_dir)
-        else:
-            # Loading a dataset from local json files
-            raw_datasets = load_dataset("json", data_files=data_files, cache_dir=model_args.cache_dir)
+        # if data_args.train_file.endswith(".csv"):
+        #     # Loading a dataset from local csv files
+        #     raw_datasets = load_dataset("csv", data_files=data_files, cache_dir=model_args.cache_dir)
+        # else:
+        #     # Loading a dataset from local json files
+        #     raw_datasets = load_dataset("json", data_files=data_files, cache_dir=model_args.cache_dir)
     # See more about loading any type of standard or custom dataset at
     # https://huggingface.co/docs/datasets/loading_datasets.html.
 

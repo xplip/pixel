@@ -35,6 +35,7 @@ python scripts/training/run_glue.py \
   --do_eval \
   --do_predict \
   --dropout_prob=0.1 \
+  --dataloader_num_workers 16 \
   --max_seq_length=${SEQ_LEN} \
   --max_steps=${NUM_STEPS} \
   --num_train_epochs=10 \
