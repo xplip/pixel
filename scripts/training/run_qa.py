@@ -120,6 +120,9 @@ class DataArguments:
     dataset_config_name: Optional[str] = field(
         default=None, metadata={"help": "The configuration name of the dataset to use (via the datasets library)."}
     )
+    testset_name: Optional[str] = field(
+        default=None, metadata={"help": "The configuration name of the test set to use (via the datasets library)."}
+    )
     train_file: Optional[str] = field(default=None, metadata={"help": "The input training data file (a text file)."})
     validation_file: Optional[str] = field(
         default=None,
@@ -703,6 +706,14 @@ def main():
             cache_dir=model_args.cache_dir,
             use_auth_token=model_args.use_auth_token if model_args.use_auth_token else None,
             ignore_verifications=True,
+        )
+        if data_args.testset_name is not None:
+            raw_datasets["test"] = load_dataset(
+            data_args.testset_name,
+            split='test',
+            cache_dir=model_args.cache_dir,
+            # use_auth_token=model_args.use_auth_token if model_args.use_auth_token else None,
+            # ignore_verifications=True,
         )
     else:
         data_files = {}

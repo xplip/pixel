@@ -8,26 +8,28 @@ export HF_DATASETS_CACHE=/exports/eddie/scratch/s2522559/cache
 export WANDB_PROJECT="pixel-experiments"
 
 # Settings
-export DATASET_NAME="tydiqa"
-export DATASET_CONFIG_NAME="secondary_task"
-export MODEL="../experiments/nov14-pretrain1/checkpoint-50000" # also works with "bert-base-cased", etc.
-export FALLBACK_FONTS_DIR="data/fallback_fonts"  # let's say this is where we downloaded the fonts to
-export SEQ_LEN=400
-export STRIDE=160
-export QUESTION_MAX_LEN=128
-export BSZ=32
-export GRAD_ACCUM=1
-export LR=7e-5
-export SEED=42
-export NUM_STEPS=20000
+DATASET_NAME="tydiqa"
+DATASET_CONFIG_NAME="secondary_task"
+TESTSET_NAME="squad"
+MODEL="../experiments/nov14-pretrain1/checkpoint-50000" # also works with "bert-base-cased", etc.
+FALLBACK_FONTS_DIR="data/fallback_fonts"  # let's say this is where we downloaded the fonts to
+SEQ_LEN=400
+STRIDE=160
+QUESTION_MAX_LEN=128
+BSZ=32
+GRAD_ACCUM=1
+LR=7e-5
+SEED=42
+NUM_STEPS=20000
   
-export RUN_NAME="${DATASET_NAME}-pixel-${SEQ_LEN}-${BSZ}-${GRAD_ACCUM}-${LR}-${NUM_STEPS}-${SEED}"
-export OUTPUT_DIR="../experiments/${RUN_NAME}"
+RUN_NAME="${DATASET_NAME}-pixel-${SEQ_LEN}-${BSZ}-${GRAD_ACCUM}-${LR}-${NUM_STEPS}-${SEED}"
+OUTPUT_DIR="../experiments/${RUN_NAME}"
 
 python scripts/training/run_qa.py \
   --model_name_or_path=${MODEL} \
   --dataset_name=${DATASET_NAME} \
   --dataset_config_name=${DATASET_CONFIG_NAME} \
+  --testset_name=${TESTSET_NAME} \
   --remove_unused_columns=False \
   --do_train \
   --do_eval \
