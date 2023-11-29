@@ -710,7 +710,7 @@ def main():
         if data_args.testset_name is not None:
             raw_datasets["test"] = load_dataset(
             data_args.testset_name,
-            split='test',
+            split='validation',
             cache_dir=model_args.cache_dir,
             # use_auth_token=model_args.use_auth_token if model_args.use_auth_token else None,
             # ignore_verifications=True,
