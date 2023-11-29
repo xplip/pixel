@@ -5,37 +5,37 @@ module load cuda/12.1.1
 export TRANSFORMERS_OFFLINE=1
 export TRANSFORMERS_CACHE=/exports/eddie/scratch/s2522559/cache
 export HF_DATASETS_CACHE=/exports/eddie/scratch/s2522559/cache
+
+# Optional wandb environment vars
 export WANDB_PROJECT="pixel-experiments"
 
 # Settings
-export DATASET_NAME="tydiqa"
-export DATASET_CONFIG_NAME="secondary_task"
-export MODEL="../experiments/nov14-pretrain1/checkpoint-50000" # also works with "bert-base-cased", etc.
-export FALLBACK_FONTS_DIR="data/fallback_fonts"  # let's say this is where we downloaded the fonts to
-export SEQ_LEN=400
-export STRIDE=160
-export QUESTION_MAX_LEN=128
-export BSZ=32
-export GRAD_ACCUM=1
-export LR=7e-5
-export SEED=42
-export NUM_STEPS=20000
+TASK="qnli"
+MODEL="../experiments/nov14-pretrain1/checkpoint-50000" # also works with "bert-base-cased", "roberta-base", etc.
+RENDERING_BACKEND="pygame"  # Consider trying out both "pygame" and "pangocairo" to see which one works best
+POOLING_MODE="mean" # Can be "mean", "max", "cls", or "pma1" to "pma8"
+SEQ_LEN=256
+BSZ=64
+GRAD_ACCUM=4  # We found that higher batch sizes can sometimes make training more stable
+LR=3e-5
+SEED=42
+NUM_STEPS=15000
   
-export RUN_NAME="${DATASET_NAME}-pixel-${SEQ_LEN}-${BSZ}-${GRAD_ACCUM}-${LR}-${NUM_STEPS}-${SEED}"
-export OUTPUT_DIR="../experiments/${RUN_NAME}"
+RUN_NAME="${TASK}-$(basename ${MODEL})-${POOLING_MODE}-${RENDERING_BACKEND}-${SEQ_LEN}-${BSZ}-${GRAD_ACCUM}-${LR}-${NUM_STEPS}-${SEED}"
+OUTPUT_DIR="../experiments/${RUN_NAME}"
 
-python scripts/training/run_qa.py \
+python scripts/training/run_glue.py \
   --model_name_or_path=${MODEL} \
-  --dataset_name=${DATASET_NAME} \
-  --dataset_config_name=${DATASET_CONFIG_NAME} \
+  --task_name=${TASK} \
+  --rendering_backend=${RENDERING_BACKEND} \
+  --pooling_mode=${POOLING_MODE} \
+  --pooler_add_layer_norm=True \
   --remove_unused_columns=False \
   --do_train \
   --do_eval \
   --do_predict \
   --dropout_prob=0.1 \
   --max_seq_length=${SEQ_LEN} \
-  --question_max_length=${QUESTION_MAX_LEN} \
-  --doc_stride=${STRIDE} \
   --max_steps=${NUM_STEPS} \
   --num_train_epochs=10 \
   --early_stopping \
@@ -58,8 +58,5 @@ python scripts/training/run_qa.py \
   --report_to=wandb \
   --log_predictions \
   --load_best_model_at_end=True \
-  --metric_for_best_model="eval_f1" \
-  --fp16 \
-  --half_precision_backend=apex \
-  --fallback_fonts_dir=${FALLBACK_FONTS_DIR} \
+  --metric_for_best_model="eval_accuracy" \
   --seed=${SEED}
