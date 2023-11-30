@@ -20,7 +20,7 @@ BSZ=32
 GRAD_ACCUM=1
 LR=7e-5
 SEED=42
-NUM_STEPS=20000
+NUM_STEPS=2000
   
 RUN_NAME="${DATASET_NAME}-pixel-${SEQ_LEN}-${BSZ}-${GRAD_ACCUM}-${LR}-${NUM_STEPS}-${SEED}"
 OUTPUT_DIR="../experiments/${RUN_NAME}"
@@ -48,8 +48,8 @@ python scripts/training/run_qa.py \
   --warmup_steps=100 \
   --run_name=${RUN_NAME} \
   --output_dir=${OUTPUT_DIR} \
-  --overwrite_output_dir \
-  --overwrite_cache \
+  --overwrite_output_dir false \
+  --ignore_data_skip \
   --logging_strategy=steps \
   --logging_steps=100 \
   --evaluation_strategy=steps \
@@ -61,7 +61,5 @@ python scripts/training/run_qa.py \
   --log_predictions \
   --load_best_model_at_end=True \
   --metric_for_best_model="eval_f1" \
-  --fp16 \
-  --half_precision_backend=apex \
   --fallback_fonts_dir=${FALLBACK_FONTS_DIR} \
   --seed=${SEED}
