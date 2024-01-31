@@ -2,7 +2,7 @@ bs4
 fonttools
 matplotlib
 nltk
-numpy
+numpy<1.24
 opencv-python-headless
 pandas
 pyarrow
@@ -10,7 +10,7 @@ pygame
 pyyaml
 scipy
 seqeval
-sklearn
+scikit-learn
 spacy
 submitit
 transformers==4.17.0
