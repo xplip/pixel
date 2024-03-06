@@ -326,7 +326,7 @@ def main():
     # Set seed
     set_seed(training_args.seed)
 
-    # Prepare NER task
+    # Prepare POS task
     labels = UPOS_LABELS
     label_map: Dict[int, str] = {i: label for i, label in enumerate(labels)}
 
